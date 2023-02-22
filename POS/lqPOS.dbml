@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="POS" Class="lqPOSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-TLRGU04;Initial Catalog=POS;Integrated Security=True" SettingsObjectName="POS.My.MySettings" SettingsPropertyName="POSConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblCategory" Member="tblCategories">
+    <Type Name="tblCategory">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="tblCategory_tblItem" Member="tblItems" ThisKey="id" OtherKey="CategoryId" Type="tblItem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblUser" Member="tblUsers">
+    <Type Name="tblUser">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblAdmin" Member="tblAdmins">
+    <Type Name="tblAdmin">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AdminName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AdminPassword" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblCustomer" Member="tblCustomers">
+    <Type Name="tblCustomer">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Customer" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="tblCustomer_tblInvoice" Member="tblInvoices" ThisKey="id" OtherKey="customerId" Type="tblInvoice" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblItems" Member="tblItems">
+    <Type Name="tblItem">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ItemName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblItem_tblItem_Ing" Member="tblItem_Ings" ThisKey="id" OtherKey="ItemId" Type="tblItem_Ing" />
+      <Association Name="tblItem_tblOrder" Member="tblOrders" ThisKey="id" OtherKey="itemId" Type="tblOrder" />
+      <Association Name="tblCategory_tblItem" Member="tblCategory" ThisKey="CategoryId" OtherKey="id" Type="tblCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblIngredient" Member="tblIngredients">
+    <Type Name="tblIngredient">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IngredientName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IngredientPrice" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblIngredient_tblItem_Ing" Member="tblItem_Ings" ThisKey="id" OtherKey="IngId" Type="tblItem_Ing" />
+      <Association Name="tblIngredient_tblOrder_Ing" Member="tblOrder_Ings" ThisKey="id" OtherKey="ingId" Type="tblOrder_Ing" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[tblItem-Ing]" Member="tblItem_Ings">
+    <Type Name="tblItem_Ing">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IngId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblItem_tblItem_Ing" Member="tblItem" ThisKey="ItemId" OtherKey="id" Type="tblItem" IsForeignKey="true" />
+      <Association Name="tblIngredient_tblItem_Ing" Member="tblIngredient" ThisKey="IngId" OtherKey="id" Type="tblIngredient" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[tblOrder-Ing]" Member="tblOrder_Ings">
+    <Type Name="tblOrder_Ing">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="orderId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ingId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[with/without]" Member="with_without" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="tblIngredient_tblOrder_Ing" Member="tblIngredient" ThisKey="ingId" OtherKey="id" Type="tblIngredient" IsForeignKey="true" />
+      <Association Name="tblOrder_tblOrder_Ing" Member="tblOrder" ThisKey="orderId" OtherKey="Id" Type="tblOrder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblInvoice" Member="tblInvoices">
+    <Type Name="tblInvoice">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="customerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[date and time]" Member="date_and_time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="[open / close]" Member="open___close" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="userId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblCustomer_tblInvoice" Member="tblCustomer" ThisKey="customerId" OtherKey="id" Type="tblCustomer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblOrder" Member="tblOrders">
+    <Type Name="tblOrder">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="discount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="itemId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="invoiceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[With]" Member="With" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Without" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Association Name="tblOrder_tblOrder_Ing" Member="tblOrder_Ings" ThisKey="Id" OtherKey="orderId" Type="tblOrder_Ing" />
+      <Association Name="tblItem_tblOrder" Member="tblItem" ThisKey="itemId" OtherKey="id" Type="tblItem" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.View_orderItem" Member="View_orderItems">
+    <Type Name="View_orderItem">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="discount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="itemId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="invoiceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ItemName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.View_OrderInvoiceItem" Member="View_OrderInvoiceItems">
+    <Type Name="View_OrderInvoiceItem">
+      <Column Name="[open / close]" Member="open___close" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IDinvoice" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDorder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="discount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ItemName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IDitem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.Filter_Customer" Method="Filter_Customer">
+    <Parameter Name="customer" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="address" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="phone" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="Filter_CustomerResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Customer" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Filter_User" Method="Filter_User">
+    <Parameter Name="user" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="password" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="Filter_UserResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Filter_item" Method="Filter_item">
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="CategoryId" Parameter="categoryId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Filter_itemResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Filter_itemIng" Method="Filter_itemIng">
+    <Parameter Name="Itemid" Parameter="itemid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Ingid" Parameter="ingid" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Filter_itemIngResult">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IngId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Filter_ReprotIemOrder" Method="Filter_ReprotIemOrder">
+    <Parameter Name="itemName" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="OpenClose" Parameter="openClose" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="Filter_ReprotIemOrderResult">
+      <Column Name="[open / close]" Member="open___close" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IDinvoice" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IDorder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="discount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ItemName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IDitem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
